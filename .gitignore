@@ -1,0 +1,11 @@
+# VS Code workspace settings
+*.code-workspace
+
+# Private data
+env.json
+user_ids.txt
+_*
+
+# Folders
+src/
+logs/
