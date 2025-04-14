@@ -26,6 +26,8 @@ It simplifies ad-hoc API requests by delegating rate-limit and error handling to
 
 - Exposes the 5-second rolling request rate per server
 
+- TypeScript support
+
 ## Missing features
 
 - No rate-limit management for multiple concurrent processes to the same server
@@ -75,6 +77,8 @@ It simplifies ad-hoc API requests by delegating rate-limit and error handling to
         - The second term is an object where the keys / value pair corresponds to the URL or `body` parameters. You need to match the key name to the corresponding getter function property value in `this.APIendpoints`.
 
         - If you make the key name the same as the variable name you want to pass along, you can use property shorthands (ex. `cursor`).
+
+        - You can uncomment the debug lines in the `#buildURL` method to inspect how URLs are constructed.
 
 ## Included examples
 

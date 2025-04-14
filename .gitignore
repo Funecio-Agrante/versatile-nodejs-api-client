@@ -7,5 +7,7 @@ user_ids.txt
 _*
 
 # Folders
+.vscode/
 src/
 logs/
+node_modules/

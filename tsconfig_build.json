@@ -1,0 +1,13 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+      "noEmit": false,
+      "downlevelIteration": false,
+      "outDir": "dist",
+      "rootDir": "lib",
+      "skipLibCheck": true,
+      "declaration": false
+    },
+    "include": ["lib/**/*.ts"],
+    "exclude": ["node_modules", "src/**/*.ts"]
+  }

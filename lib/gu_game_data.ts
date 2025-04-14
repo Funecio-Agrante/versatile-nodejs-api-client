@@ -1,7 +1,8 @@
 // Demo for the match endpoint of the Gods Unchained API
 // https://github.com/immutable/gods-unchained-api
 
-import { APIManager } from './api.js';
+import { APIManager, gameModeID } from './api.js';
+
 const apiManager = new APIManager();
 
 const startDate = new Date('2025-03-01T07:00:00Z');
@@ -20,9 +21,9 @@ if (isNaN(+endDate)) {
 const startTime = Math.floor(startDate.getTime() / 1000); // API takes Unix timestamps in seconds
 const endTime = Math.floor(endDate.getTime() / 1000);
 
-const DateInterval = (startTime, endTime) => {
-    if ((endTime - startTime) > 259200) endTime = null;
-    return `${startTime ?? ''}-${endTime ?? ''}`;
+const DateInterval = (startTime: number, endTime: number | undefined) => {
+    if (endTime && (endTime - startTime) > 259200) endTime = undefined;
+    return `${startTime}-${endTime ?? ''}`;
 }
 
 const ListGameModes = async () => {
@@ -37,7 +38,7 @@ const ListGameModes = async () => {
 }
 //await ListGameModes();
 
-const SealedGames = async (startTime, endTime) => { // game mode 7
+const SealedGames = async (startTime: number, endTime: number | undefined) => { // game mode 7
     let page = 0;
     const gameRecords = [];
     const dateRange = DateInterval(startTime, endTime);
@@ -69,10 +70,11 @@ const SealedGames = async (startTime, endTime) => { // game mode 7
 }
 //await SealedGames(startTime, endTime); // works with undefined for open-ended ranges
 
-const PlayerMatches = async (mode_id, playerID, startTime, endTime) => {
+const PlayerMatches = async (mode_id: gameModeID, playerID: number, startTime: number, endTime: number | undefined) => {
     let page = 0;
     const gameRecords = [];
     const dateRange = DateInterval(startTime, endTime);
+    console.log('dateRange', dateRange);
 
     consolidateWins: while (true) {
         page++;
@@ -84,7 +86,6 @@ const PlayerMatches = async (mode_id, playerID, startTime, endTime) => {
 
         for (const record of wonMatchesAPI.records) {
             if (typeof endTime === 'number' && record.end_time > endTime) {
-                console.log('debugging', record.end_time, endTime); // debugging
                 break consolidateWins;
             }
             gameRecords.push(record);
@@ -104,7 +105,6 @@ const PlayerMatches = async (mode_id, playerID, startTime, endTime) => {
 
         for (const record of lostMatchesAPI.records) {
             if (typeof endTime === 'number' && record.end_time > endTime) {
-                console.log(record.end_time, endTime); // debugging
                 break consolidateLosses;
             }
             gameRecords.push(record);
@@ -122,7 +122,7 @@ const PlayerMatches = async (mode_id, playerID, startTime, endTime) => {
     console.table(matchData);
     console.log('Total game records array length:', gameRecords.length);
 }
-//PlayerMatches(13, 2009776, startTime, endTime); // works with undefined for open-ended ranges
+//PlayerMatches(13, 2009776, startTime, endTime); // works with undefined endTime for open-ended ranges
 
 // Close listener and end the script cleanly
 apiManager.stopInterval();

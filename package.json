@@ -17,5 +17,9 @@
   "bugs": {
     "url": "https://github.com/Funecio-Agrante/versatile-nodejs-api-client/issues"
   },
-  "homepage": "https://github.com/Funecio-Agrante/versatile-nodejs-api-client#readme"
+  "homepage": "https://github.com/Funecio-Agrante/versatile-nodejs-api-client#readme",
+  "devDependencies": {
+    "@types/node": "^22.14.1",
+    "typescript": "^5.8.3"
+  }
 }
